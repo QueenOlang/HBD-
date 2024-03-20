@@ -1,28 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Present</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Countdown to Birthday</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #000; /* Black background */
+        color: #fff; /* White text */
+        font-family: Arial, sans-serif;
+        overflow: hidden; /* Hide overflow to prevent scrolling */
+    }
+
+    .heart-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 3cm; /* Padding for hearts to start from the edges */
+    }
+
+    .heart {
+        font-size: 20px;
+        color: red;
+        animation: fall 5s linear infinite; /* Adjust duration as needed */
+    }
+
+    @keyframes fall {
+        0% {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(100vh);
+            opacity: 1;
+        }
+    }
+
+    .countdown-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    h1{
+        font-size: 30pt;
+    }
+
+    
+</style>
 </head>
 <body>
-    <div class="container" id="container">
-        <h1>🥳 Birthday Countdown 🥳</h1>
-        <p class="countdown">Days until Babe's Birthday: <span id="countdown"></span></p>
-        <div id="questionContainer" style="display: none;">
-            <h2 id="question"></h2>
-            <input type="text" id="answer" placeholder="Your Answer">
-            <button id="submitBtn" onclick="checkAnswer()">Submit</button>
-            <button id="nextBtn" style="display: none;" onclick="nextQuestion()">Next</button>
-        </div>
-        <div id="messageContainer" style="display: none;">
-            <div id="message"></div>
-            <p id="nextQuestionMessage">Come back tomorrow for the next question.</p>
-            <p style="font: bold; color: crimson;">Next question will be displayed in: <span id="remainingTime"></span></p>
-
-        </div>
+    <!-- Heart container to hold the falling hearts -->
+    <div class="heart-container" id="heartContainer">
+        <!-- Hearts will be dynamically added here -->
     </div>
-    <script src="script.js"></script>
+
+    <!-- Countdown and messages container -->
+    <div class="countdown-container" id="countdownContainer">
+        <h1>Countdown to Your Birthday 🥳🥳🥳</h1>
+        <p id="countdown"></p>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        // Set the target date (your boyfriend's birthday)
+        var targetDate = new Date("2024-03-24");
+
+        // Function to calculate and update countdown
+        function updateCountdown() {
+            var currentDate = new Date();
+            var timeDifference = targetDate.getTime() - currentDate.getTime();
+            var daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+            // Display countdown
+            document.getElementById("countdown").innerText = "Days left: " + daysDifference;
+
+            // Display messages based on remaining days
+            var message = "";
+            switch (daysDifference) {
+                case 0:
+                    message = "Happy Birthday! 🎉 Show me this message to receive a video!";
+                    break;
+                case 1:
+                    message = "Just one more day until your birthday! 🎂";
+                    break;
+                default:
+                    message = "Only " + daysDifference + " days left! 🎈. I love you a Billion ❤️ my sweet baby boo, apple pie, love of my life, sun moon and stars, the air I breath, coconut cake, baby daddyyy, I can't wait!!! ";
+                    break;
+            }
+            document.getElementById("message").innerText = message;
+        }
+
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+
+        // Generate hearts with delay
+        var heartContainer = document.getElementById("heartContainer");
+        var numHearts = 50;
+        var delay = 0;
+        for (var i = 0; i < numHearts; i++) {
+            setTimeout(function() {
+                var heart = document.createElement("span");
+                heart.className = "heart";
+                heart.innerText = "♥";
+                heartContainer.appendChild(heart);
+            }, delay);
+            delay += 1000; // 1000ms = 1 second delay
+        }
+    </script>
 </body>
 </html>
